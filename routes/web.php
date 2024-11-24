@@ -21,7 +21,7 @@ Route::get('/dashboard', function () {
 
 Route::post('/profile/photo', [ProfileController::class, 'uploadPhoto'])->name('profile.photo.upload');
 
-Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
+Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.view');
 
 Route::resources([
     'posts' => PostController::class,
@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/public_profile', [ProfileController::class, 'showMyProfile'])->name('public_profile.show');
 });
 
 require __DIR__.'/auth.php';

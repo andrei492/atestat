@@ -49,7 +49,8 @@ class PostController extends Controller
         }
 
         // Save the uploaded file to the 'public' disk (e.g., public/storage)
-        $filePath = $request->file('upload_file')->store('uploads', 'public');
+        $filePath = $request->file('upload_file')->store('uploads/' . auth()->id(), 'public');
+        //dd($filePath);
         $post = new Post();
         $post -> image_path = $filePath;
         $post -> author_id = auth()->id();

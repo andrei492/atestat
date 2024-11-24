@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,6 +14,16 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+    public function showMyProfile()
+    {
+        $user = Auth::user();
+
+        
+        $posts = Post::where('author_id', $user->id)->get();
+
+        return view('users.showmyprofile', compact('user', 'posts'));
+    }
+
     // Method to show a user's profile
     public function show($id)
     {
@@ -54,10 +65,11 @@ class ProfileController extends Controller
             Storage::delete($user->profile_photo);
         }
 
-        // Store the new profile photo
-        $path = $request->file('photo')->store('profile_photos', 'public');
+        // Store the new profile photo in a user-specific folder
+        $path = $request->file('photo')->store('uploads/' . $user->id, 'public');
+        
 
-        // Save the path to the user's profile
+        // Save the path in the user's profile_photo field
         $user->profile_photo = $path;
         $user->save();
 

@@ -26,6 +26,11 @@
                         {{ __('Search user') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('public_profile.show')" :active="request()->routeIs('public_profile.show')">
+                        {{ __('My profile') }}
+                    </x-nav-link>
+                </div>
                 
             </div>
 
