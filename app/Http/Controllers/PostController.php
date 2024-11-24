@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\File;
@@ -31,6 +32,8 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        //verificare id user
+        //dd(auth()->id());
         $validator = Validator::make($request->all(), [
             'upload_file' => [
                 'required',
@@ -44,13 +47,16 @@ class PostController extends Controller
                         ->withErrors($validator)
                         ->withInput();
         }
- 
-        // TODO: salveaza imaginea pe disc in zona publica
-        // TODO: salveaza in baza de date calea catre poza si autorul
+
+        // Save the uploaded file to the 'public' disk (e.g., public/storage)
+        $filePath = $request->file('upload_file')->store('uploads', 'public');
+        $post = new Post();
+        $post -> image_path = $filePath;
+        $post -> author_id = auth()->id();
+        $post->save();
         // Store the blog post...
  
-        // return redirect('/posts');
-        dd("verificare facuta");
+        return redirect(route('posts.show', $post));
     }
 
     /**
@@ -58,7 +64,9 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        //
+        //dd(storage_path(), public_path());
+        $post = Post::find($id);
+        return view('posts.show', ['post'=>$post]);
     }
 
     /**
