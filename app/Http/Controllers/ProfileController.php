@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,31 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+    // Method to show a user's profile
+    public function show($id)
+    {
+        $user = User::findOrFail($id);  // Find the user by ID, or fail if not found
+        return view('users.profile', compact('user'));
+    }
+
+    // Show the search form
+    public function showSearchForm()
+    {
+        return view('users.search'); 
+        // Return the search form view
+    }
+
+    // Handle the search results
+    public function search(Request $request)
+    {
+        $query = $request->input('query');  // Get the search query from the form
+        $users = User::where('name', 'like', '%' . $query . '%')
+                     ->get();
+
+        // Return the search results view with the users and query data
+        return view('users.search-results', compact('users', 'query'));
+    }
+
     /**
      * Upload the profile picture
      */

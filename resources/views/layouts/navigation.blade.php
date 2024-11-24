@@ -21,6 +21,12 @@
                         {{ __('Create new post') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('search.form')" :active="request()->routeIs('search.form')">
+                        {{ __('Search user') }}
+                    </x-nav-link>
+                </div>
+                
             </div>
 
             <!-- Settings Dropdown -->
@@ -40,7 +46,7 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            {{ __('Profile settings') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->

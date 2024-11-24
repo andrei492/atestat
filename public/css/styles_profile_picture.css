@@ -1,0 +1,6 @@
+.profile-photo-circle {
+    width: 64px;              /* Fixed width */
+    height: 64px;             /* Fixed height */
+    clip-path: circle(50%);   /* Circular crop */
+    object-fit: cover;        /* Crop to fit */
+}

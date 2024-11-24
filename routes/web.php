@@ -21,9 +21,14 @@ Route::get('/dashboard', function () {
 
 Route::post('/profile/photo', [ProfileController::class, 'uploadPhoto'])->name('profile.photo.upload');
 
+Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.show');
+
 Route::resources([
     'posts' => PostController::class,
 ]);
+
+Route::get('/search', [ProfileController::class, 'showSearchForm'])->name('search.form');   // Show search form
+Route::get('/search-results', [ProfileController::class, 'search'])->name('search.results');  // Show search results
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
