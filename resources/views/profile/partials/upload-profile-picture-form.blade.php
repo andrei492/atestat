@@ -16,4 +16,9 @@
         </div>
         <button type="submit">Upload Photo</button>
     </form>
+    @if(Auth::user()->profile_photo)
+        <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="Profile Photo" width="100">
+    @else
+         <p>No profile photo uploaded.</p>
+    @endif
 </section>
