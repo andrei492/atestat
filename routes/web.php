@@ -19,6 +19,8 @@ Route::get('/dashboard', function () {
 //     return view('posts.new');
 // });
 
+Route::post('/profile/photo', [ProfileController::class, 'uploadPhoto'])->name('profile.photo.upload');
+
 Route::resources([
     'posts' => PostController::class,
 ]);

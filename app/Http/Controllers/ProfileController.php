@@ -12,6 +12,33 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
     /**
+     * Upload the profile picture
+     */
+    public function uploadPhoto(Request $request)
+    {
+        $request->validate([
+            'photo' => 'required|image|mimes:jpg,jpeg,png|max:2048', // Validate image file
+        ]);
+
+        $user = Auth::user();
+
+        // If user already has a profile photo, delete the old one
+        if ($user->profile_photo) {
+            Storage::delete($user->profile_photo);
+        }
+
+        // Store the new profile photo
+        $path = $request->file('photo')->store('profile_photos', 'public');
+
+        // Save the path to the user's profile
+        $user->profile_photo = $path;
+        $user->save();
+
+        return back()->with('success', 'Profile photo updated successfully!');
+    }
+
+
+    /**
      * Display the user's profile form.
      */
     public function edit(Request $request): View
