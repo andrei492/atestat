@@ -23,6 +23,7 @@ Route::post('/profile/photo', [ProfileController::class, 'uploadPhoto'])->name('
 
 Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.view');
 
+
 Route::resources([
     'posts' => PostController::class,
 ]);

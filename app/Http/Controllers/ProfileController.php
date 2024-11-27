@@ -28,7 +28,9 @@ class ProfileController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);  // Find the user by ID, or fail if not found
-        return view('users.profile', compact('user'));
+        $posts = Post::where('author_id', $id)->get();
+        //dd($posts);
+        return view('users.profile', compact('user', 'posts'));
     }
 
     // Show the search form

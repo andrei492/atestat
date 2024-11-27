@@ -1,0 +1,6 @@
+.post-dimesions {
+    width: 400px;              /* Fixed width */
+    height: 400px;             /* Fixed height */
+    border-radius: 5%;
+    object-fit: cover;        /* Crop to fit */
+}
