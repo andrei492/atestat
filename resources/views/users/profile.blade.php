@@ -26,6 +26,18 @@
                         @endif
                     </div>
 
+                    <!-- Display follow button -->
+                    <div>
+                        <form action="{{ route('users.follow', $user->id) }}" method="POST">
+                            @csrf
+                            @if ($isFollowing)
+                                <button type="submit" class="btn btn-danger">Unfollow</button>
+                            @else
+                                <button type="submit" class="btn btn-primary">Follow</button>
+                            @endif
+                        </form>
+                    </div>    
+
                     <!-- Display User's Posts -->
                     <div class="mt-6">
                         <h4 class="text-lg font-semibold">My Posts</h4>

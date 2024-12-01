@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Follower;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
+ 
 
 class ProfileController extends Controller
 {
@@ -19,7 +22,7 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         
-        $posts = Post::where('author_id', $user->id)->get();
+        $posts = Post::where('author_id', $user->id)->latest()->get();
 
         return view('users.showmyprofile', compact('user', 'posts'));
     }
@@ -27,10 +30,14 @@ class ProfileController extends Controller
     // Method to show a user's profile
     public function show($id)
     {
+
         $user = User::findOrFail($id);  // Find the user by ID, or fail if not found
-        $posts = Post::where('author_id', $id)->get();
+        $posts = Post::where('author_id', $id)->latest()->get();
         //dd($posts);
-        return view('users.profile', compact('user', 'posts'));
+        //return view('users.profile', compact('user', 'posts'));
+        $isFollowing = Follower::where('follower_id', Auth::user()->id)->where('following_id', $id)->first();
+        //dd(Auth::user()->id, $id, $isFollowing);
+        return view('users.profile', compact('user', 'posts', 'isFollowing'));
     }
 
     // Show the search form
@@ -125,4 +132,40 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function toggleFollow($id)
+    {
+        $user = auth()->user();  // Logged-in user
+
+        $follow = Follower::where('follower_id', $user->id)->where('following_id', $id)->first();
+        if($follow){
+            $follow->delete();
+        }
+        else{
+            Follower::insert([
+                'follower_id' => $user->id,
+                'following_id' => $id,
+            ]);
+        }
+        return back();  // Redirect back to the profile page
+    }
+
+    public function feed()
+    {
+        $user = Auth::user(); // Get the logged-in user
+
+        // Get the IDs of the users that the logged-in user is following
+        $followingIds = Follower::where('follower_id', $user->id)->pluck('following_id');
+
+        // Fetch the posts of the users the logged-in user is following
+        $posts = Post::whereIn('author_id', $followingIds)
+            ->orderBy('id', 'desc') 
+            ->paginate(10);
+        //dd($user, $followingIds, $posts); 
+        // Return the feed view with the posts
+        return view('posts.feed', compact('posts'));
+    }
+
+    
+
 }

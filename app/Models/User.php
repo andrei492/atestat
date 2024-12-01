@@ -46,8 +46,20 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public function posts()
-    {
-        return $this->hasMany(Post::class, 'author_id');
-    }
+    // public function posts()
+    // {
+    //     return $this->hasMany(Post::class, 'author_id');
+    // }
+
+    // public function following()
+    // {
+    //     return $this->belongsToMany(User::class, 'followers', 'id', 'following_id');
+    // }
+
+    // public function followers()
+    // {
+    //     return $this->belongsToMany(User::class, 'followers', 'id', 'following_id');
+    // }
+
+
 }

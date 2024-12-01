@@ -7,6 +7,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('/users/{id}/follow', [ProfileController::class, 'toggleFollow'])->name('users.follow');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -22,6 +24,10 @@ Route::get('/dashboard', function () {
 Route::post('/profile/photo', [ProfileController::class, 'uploadPhoto'])->name('profile.photo.upload');
 
 Route::get('/profile/{id}', [ProfileController::class, 'show'])->name('profile.view');
+
+
+//Route::get('/feed', [PostController::class, 'feed'])->name('posts.feed');
+Route::middleware('auth')->get('/feed', [ProfileController::class, 'feed'])->name('posts.feed');
 
 
 Route::resources([
