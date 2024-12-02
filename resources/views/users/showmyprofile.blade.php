@@ -14,11 +14,9 @@
 
                     <!-- Display User Profile Information -->
                     <h3 class="text-2xl font-semibold">{{ $user->name }}</h3>
-                    <p>Email: {{ $user->email }}</p>
 
                     <!-- Display Profile Photo -->
                     <div class="my-4">
-                        <h4 class="text-lg font-semibold">Profile Photo</h4>
                         @if($user->profile_photo && file_exists(public_path('storage/' . $user->profile_photo)))
                             <img src="{{ asset('storage/' . $user->profile_photo) }}" alt="Profile Photo" class="profile-photo-circle">
                         @else

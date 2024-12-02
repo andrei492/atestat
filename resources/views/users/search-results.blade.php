@@ -29,7 +29,7 @@
 
                                     <!-- User Name, which is clickable to view the user's profile -->
                                     <a href="{{ route('profile.view', $user->id) }}" class="text-blue-500 hover:text-blue-700">
-                                        {{ $user->name }} ({{ $user->email }})
+                                        {{ $user->name }} 
                                     </a>
                                 </li>
                             @endforeach

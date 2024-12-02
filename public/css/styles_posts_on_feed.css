@@ -1,0 +1,10 @@
+.post-dimesions{
+    width: 400px;              /* Fixed width */
+    height: 400px;             /* Fixed height */
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1cm;
+    margin-top: 1cm;
+    border-radius: 2%;
+    object-fit: cover;        /* Crop to fit */
+}

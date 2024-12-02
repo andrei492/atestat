@@ -1,6 +1,8 @@
 .profile-photo-circle {
-    width: 150px;              /* Fixed width */
-    height: 150px;             /* Fixed height */
+    width: 100px;              /* Fixed width */
+    height: 100px;             /* Fixed height */
     clip-path: circle(50%);   /* Circular crop */
     object-fit: cover;        /* Crop to fit */
+    margin-top: 0.25cm;
+    margin-bottom: 0.25cm;
 }
