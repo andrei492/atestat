@@ -1,4 +1,18 @@
 services:
+    vite:
+        image: node:18
+        working_dir: /var/www/html
+        volumes:
+            - .:/var/www/html
+        command: sh -c "npm install && npm run dev"
+        ports:
+            - '${VITE_PORT:-5199}:5199'
+        networks:
+            - sail
+        depends_on:
+            - laravel.test
+
+
     laravel.test:
         build:
             context: ./vendor/laravel/sail/runtimes/8.3
@@ -10,7 +24,6 @@ services:
             - 'host.docker.internal:host-gateway'
         ports:
             - '${APP_PORT:-8080}:80'
-            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
         environment:
             WWWUSER: '${WWWUSER}'
             LARAVEL_SAIL: 1
