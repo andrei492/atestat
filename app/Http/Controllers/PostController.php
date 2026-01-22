@@ -47,8 +47,8 @@ class PostController extends Controller
                         ->withInput();
         }
 
-        // Upload to Cloudinary
-        $uploadedFile = Cloudinary::upload($request->file('upload_file')->getRealPath(), [
+        // Upload to Cloudinary using the uploadApi
+        $uploadedFile = Cloudinary::uploadApi()->upload($request->file('upload_file')->getRealPath(), [
             'folder' => 'socialapp/posts/' . auth()->id(),
             'transformation' => [
                 'width' => 1080,
@@ -58,7 +58,7 @@ class PostController extends Controller
             ]
         ]);
         
-        $url = $uploadedFile->getSecurePath();
+        $url = $uploadedFile['secure_url'];
 
         $post = new Post();
         $post->image_path = $url;

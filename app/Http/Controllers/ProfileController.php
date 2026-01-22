@@ -76,15 +76,16 @@ class ProfileController extends Controller
             try {
                 $publicId = $this->extractCloudinaryPublicId($user->profile_photo);
                 if ($publicId) {
-                    Cloudinary::destroy($publicId);
+                    Cloudinary::adminApi()->deleteAssets([$publicId]);
                 }
             } catch (\Exception $e) {
                 // Log error but continue with upload
+                \Log::warning('Failed to delete old Cloudinary image: ' . $e->getMessage());
             }
         }
 
-        // Upload to Cloudinary
-        $uploadedFile = Cloudinary::upload($request->file('photo')->getRealPath(), [
+        // Upload to Cloudinary using the uploadApi
+        $uploadedFile = Cloudinary::uploadApi()->upload($request->file('photo')->getRealPath(), [
             'folder' => 'socialapp/profiles/' . $user->id,
             'transformation' => [
                 'width' => 400,
@@ -94,7 +95,7 @@ class ProfileController extends Controller
             ]
         ]);
         
-        $url = $uploadedFile->getSecurePath();
+        $url = $uploadedFile['secure_url'];
 
         // Save the Cloudinary URL in the user's profile_photo field
         $user->profile_photo = $url;
