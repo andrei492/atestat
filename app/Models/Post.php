@@ -46,4 +46,21 @@ class Post extends Model
         if (!$user) return false;
         return $this->likes()->where('user_id', $user->id)->exists();
     }
+
+    /**
+     * Get all saved instances of this post.
+     */
+    public function savedBy()
+    {
+        return $this->hasMany(SavedPost::class);
+    }
+
+    /**
+     * Check if the post is saved by a specific user.
+     */
+    public function isSavedBy($user)
+    {
+        if (!$user) return false;
+        return $this->savedBy()->where('user_id', $user->id)->exists();
+    }
 }

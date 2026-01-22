@@ -29,7 +29,7 @@
         </div>
 
         <!-- Messages Container -->
-        <div class="flex-1 overflow-y-auto pb-32" id="messages-container">
+        <div class="flex-1 overflow-y-auto pb-32" id="messages-container" style="max-height: calc(100vh - 180px);">
             <div class="max-w-2xl mx-auto px-4 py-6">
                 <!-- Start of conversation -->
                 <div class="text-center mb-8">
@@ -53,8 +53,19 @@
                     @foreach($messages as $message)
                         @php
                             $isMine = $message->sender_id === auth()->id();
+                            $isFirstUnread = isset($firstUnreadMessageId) && $message->id == $firstUnreadMessageId;
                         @endphp
-                        <div class="flex {{ $isMine ? 'justify-end' : 'justify-start' }} message-item" data-message-id="{{ $message->id }}">
+                        
+                        @if($isFirstUnread)
+                            <!-- Unread Messages Divider -->
+                            <div class="flex items-center gap-4 py-2" id="unread-divider">
+                                <div class="flex-1 h-px bg-purple-500/30"></div>
+                                <span class="text-xs text-purple-400 font-medium px-2">New Messages</span>
+                                <div class="flex-1 h-px bg-purple-500/30"></div>
+                            </div>
+                        @endif
+                        
+                        <div class="flex {{ $isMine ? 'justify-end' : 'justify-start' }} message-item" data-message-id="{{ $message->id }}" @if($isFirstUnread) id="first-unread-message" @endif>
                             <div class="max-w-[75%] {{ $isMine ? 'order-2' : 'order-1' }}">
                                 @if(!$isMine)
                                     <div class="flex items-end gap-2">
@@ -67,13 +78,71 @@
                                                 {{ strtoupper(substr($message->sender->name, 0, 1)) }}
                                             </div>
                                         @endif
-                                        <div class="bg-[#1e1b2e] border border-purple-500/20 rounded-2xl rounded-bl-md px-4 py-2">
-                                            <p class="text-gray-200 break-words">{{ $message->body }}</p>
+                                        <div class="bg-[#1e1b2e] border border-purple-500/20 rounded-2xl rounded-bl-md overflow-hidden">
+                                            @if($message->sharedPost)
+                                                <!-- Shared Post Preview -->
+                                                <a href="{{ route('posts.show', $message->sharedPost) }}" class="block hover:opacity-90 transition">
+                                                    <div class="w-56">
+                                                        <img src="{{ asset('storage/' . $message->sharedPost->image_path) }}" 
+                                                             alt="Shared post" 
+                                                             class="w-full aspect-square object-cover">
+                                                        <div class="p-3 border-t border-purple-500/10">
+                                                            <div class="flex items-center gap-2 mb-1">
+                                                                @if($message->sharedPost->user->profile_photo)
+                                                                    <img src="{{ asset('storage/' . $message->sharedPost->user->profile_photo) }}" 
+                                                                         class="w-5 h-5 rounded-full object-cover">
+                                                                @else
+                                                                    <div class="w-5 h-5 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 flex items-center justify-center text-white text-[10px] font-bold">
+                                                                        {{ strtoupper(substr($message->sharedPost->user->name, 0, 1)) }}
+                                                                    </div>
+                                                                @endif
+                                                                <span class="text-xs text-gray-400 font-medium">{{ $message->sharedPost->user->name }}</span>
+                                                            </div>
+                                                            @if($message->body && $message->body !== 'Shared a post')
+                                                                <p class="text-gray-300 text-sm">{{ $message->body }}</p>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            @else
+                                                <div class="px-4 py-2">
+                                                    <p class="text-gray-200 break-words">{{ $message->body }}</p>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 @else
-                                    <div class="bg-gradient-to-r from-purple-600 to-fuchsia-600 rounded-2xl rounded-br-md px-4 py-2">
-                                        <p class="text-white break-words">{{ $message->body }}</p>
+                                    <div class="bg-gradient-to-r from-purple-600 to-fuchsia-600 rounded-2xl rounded-br-md overflow-hidden">
+                                        @if($message->sharedPost)
+                                            <!-- Shared Post Preview (sent by me) -->
+                                            <a href="{{ route('posts.show', $message->sharedPost) }}" class="block hover:opacity-90 transition">
+                                                <div class="w-56">
+                                                    <img src="{{ asset('storage/' . $message->sharedPost->image_path) }}" 
+                                                         alt="Shared post" 
+                                                         class="w-full aspect-square object-cover">
+                                                    <div class="p-3 border-t border-white/10">
+                                                        <div class="flex items-center gap-2 mb-1">
+                                                            @if($message->sharedPost->user->profile_photo)
+                                                                <img src="{{ asset('storage/' . $message->sharedPost->user->profile_photo) }}" 
+                                                                     class="w-5 h-5 rounded-full object-cover">
+                                                            @else
+                                                                <div class="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-white text-[10px] font-bold">
+                                                                    {{ strtoupper(substr($message->sharedPost->user->name, 0, 1)) }}
+                                                                </div>
+                                                            @endif
+                                                            <span class="text-xs text-white/80 font-medium">{{ $message->sharedPost->user->name }}</span>
+                                                        </div>
+                                                        @if($message->body && $message->body !== 'Shared a post')
+                                                            <p class="text-white text-sm">{{ $message->body }}</p>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        @else
+                                            <div class="px-4 py-2">
+                                                <p class="text-white break-words">{{ $message->body }}</p>
+                                            </div>
+                                        @endif
                                     </div>
                                 @endif
                                 <p class="text-xs text-gray-600 mt-1 {{ $isMine ? 'text-right' : 'ml-8' }}">
@@ -115,15 +184,37 @@
     </div>
 
     <script>
+        // Scroll function
+        function scrollToPosition() {
+            const messagesContainer = document.getElementById('messages-container');
+            const unreadDivider = document.getElementById('unread-divider');
+            
+            if (unreadDivider) {
+                // Scroll to the "New Messages" divider
+                unreadDivider.scrollIntoView({ behavior: 'auto', block: 'start' });
+                messagesContainer.scrollTop = Math.max(0, messagesContainer.scrollTop - 100);
+            } else {
+                // No unread messages, scroll to bottom
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+        }
+        
+        // Try scrolling multiple times to handle image loading
+        document.addEventListener('DOMContentLoaded', function() {
+            scrollToPosition();
+            setTimeout(scrollToPosition, 100);
+            setTimeout(scrollToPosition, 300);
+        });
+        
+        // Also scroll when all images are loaded
+        window.addEventListener('load', scrollToPosition);
+
         document.addEventListener('DOMContentLoaded', function() {
             const messagesContainer = document.getElementById('messages-container');
             const messagesList = document.getElementById('messages-list');
             const messageForm = document.getElementById('message-form');
             const messageInput = document.getElementById('message-input');
             const conversationId = {{ $conversation->id }};
-            
-            // Scroll to bottom on load
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
             
             // Auto-resize textarea
             messageInput.addEventListener('input', function() {

@@ -109,4 +109,12 @@ class User extends Authenticatable
         ->whereNull('read_at')
         ->count();
     }
+
+    /**
+     * Get all saved posts by this user.
+     */
+    public function savedPosts()
+    {
+        return $this->hasMany(SavedPost::class);
+    }
 }

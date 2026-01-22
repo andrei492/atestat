@@ -137,12 +137,17 @@ class ProfileController extends Controller
     {
         $user = auth()->user();  // Logged-in user
 
+        // Prevent self-follow
+        if ($user->id == $id) {
+            return back()->with('error', 'You cannot follow yourself.');
+        }
+
         $follow = Follower::where('follower_id', $user->id)->where('following_id', $id)->first();
         if($follow){
             $follow->delete();
         }
         else{
-            Follower::insert([
+            Follower::create([
                 'follower_id' => $user->id,
                 'following_id' => $id,
             ]);

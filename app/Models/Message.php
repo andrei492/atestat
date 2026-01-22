@@ -13,6 +13,7 @@ class Message extends Model
         'conversation_id',
         'sender_id',
         'body',
+        'shared_post_id',
         'read_at',
     ];
 
@@ -34,6 +35,22 @@ class Message extends Model
     public function sender()
     {
         return $this->belongsTo(User::class, 'sender_id');
+    }
+
+    /**
+     * Get the shared post (if any).
+     */
+    public function sharedPost()
+    {
+        return $this->belongsTo(Post::class, 'shared_post_id');
+    }
+
+    /**
+     * Check if this message has a shared post.
+     */
+    public function hasSharedPost()
+    {
+        return $this->shared_post_id !== null;
     }
 
     /**
