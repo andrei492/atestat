@@ -7,6 +7,22 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\SavedPostController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+
+// Debug storage route (remove in production)
+Route::get('/debug-storage', function () {
+    $publicPath = public_path('storage');
+    $storagePath = storage_path('app/public');
+    
+    return response()->json([
+        'public_storage_exists' => file_exists($publicPath),
+        'public_storage_is_link' => is_link($publicPath),
+        'storage_app_public_exists' => file_exists($storagePath),
+        'storage_files' => Storage::disk('public')->files('uploads', true),
+        'public_path' => $publicPath,
+        'storage_path' => $storagePath,
+    ]);
+});
 
 Route::get('/', function () {
     if (auth()->check()) {
