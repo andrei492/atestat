@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
  
 
 class ProfileController extends Controller
@@ -69,20 +70,48 @@ class ProfileController extends Controller
 
         $user = Auth::user();
 
-        // If user already has a profile photo, delete the old one
-        if ($user->profile_photo) {
-            Storage::delete($user->profile_photo);
+        // If user already has a profile photo on Cloudinary, delete the old one
+        if ($user->profile_photo && str_contains($user->profile_photo, 'cloudinary')) {
+            // Extract public_id from URL and delete from Cloudinary
+            try {
+                $publicId = $this->extractCloudinaryPublicId($user->profile_photo);
+                if ($publicId) {
+                    Cloudinary::destroy($publicId);
+                }
+            } catch (\Exception $e) {
+                // Log error but continue with upload
+            }
         }
 
-        // Store the new profile photo in a user-specific folder
-        $path = $request->file('photo')->store('uploads/' . $user->id, 'public');
+        // Upload to Cloudinary
+        $uploadedFile = Cloudinary::upload($request->file('photo')->getRealPath(), [
+            'folder' => 'socialapp/profiles/' . $user->id,
+            'transformation' => [
+                'width' => 400,
+                'height' => 400,
+                'crop' => 'fill',
+                'gravity' => 'face',
+            ]
+        ]);
         
+        $url = $uploadedFile->getSecurePath();
 
-        // Save the path in the user's profile_photo field
-        $user->profile_photo = $path;
+        // Save the Cloudinary URL in the user's profile_photo field
+        $user->profile_photo = $url;
         $user->save();
 
         return back()->with('success', 'Profile photo updated successfully!');
+    }
+
+    /**
+     * Extract public_id from Cloudinary URL
+     */
+    private function extractCloudinaryPublicId($url)
+    {
+        if (preg_match('/\/v\d+\/(.+)\.[a-z]+$/i', $url, $matches)) {
+            return $matches[1];
+        }
+        return null;
     }
 
 

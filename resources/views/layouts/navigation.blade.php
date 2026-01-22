@@ -39,7 +39,7 @@
             
             <a href="{{ route('public_profile.show') }}" class="nav-link p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition {{ request()->routeIs('public_profile.show') ? 'ring-2 ring-purple-500' : '' }}">
                 @if(Auth::user()->profile_photo)
-                    <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="Profile" class="w-6 h-6 rounded-full object-cover">
+                    <img src="{{ Auth::user()->profile_photo_url }}" alt="Profile" class="w-6 h-6 rounded-full object-cover">
                 @else
                     <div class="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 flex items-center justify-center text-white text-xs font-bold">
                         {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
@@ -133,7 +133,7 @@
             </a>
             <a href="{{ route('public_profile.show') }}" class="p-3">
                 @if(Auth::user()->profile_photo)
-                    <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="Profile" class="w-6 h-6 rounded-full object-cover {{ request()->routeIs('public_profile.show') ? 'ring-2 ring-purple-500' : '' }}">
+                    <img src="{{ Auth::user()->profile_photo_url }}" alt="Profile" class="w-6 h-6 rounded-full object-cover {{ request()->routeIs('public_profile.show') ? 'ring-2 ring-purple-500' : '' }}">
                 @else
                     <div class="w-6 h-6 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 flex items-center justify-center text-white text-xs font-bold {{ request()->routeIs('public_profile.show') ? 'ring-2 ring-purple-500' : '' }}">
                         {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}

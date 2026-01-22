@@ -63,4 +63,22 @@ class Post extends Model
         if (!$user) return false;
         return $this->savedBy()->where('user_id', $user->id)->exists();
     }
+
+    /**
+     * Get the image URL (handles both Cloudinary and local paths)
+     */
+    public function getImageUrlAttribute(): ?string
+    {
+        if (!$this->image_path) {
+            return null;
+        }
+        
+        // If it's already a full URL (Cloudinary), return as-is
+        if (str_starts_with($this->image_path, 'http')) {
+            return $this->image_path;
+        }
+        
+        // Otherwise, it's a local path
+        return asset('storage/' . $this->image_path);
+    }
 }

@@ -115,7 +115,7 @@
                         @forelse($recentLikes->merge($recentComments)->sortByDesc('created_at')->take(8) as $activity)
                             <div class="flex items-start gap-3 p-3 bg-[#252238] rounded-lg">
                                 @if($activity->user->profile_photo)
-                                    <img src="{{ asset('storage/' . $activity->user->profile_photo) }}" alt="{{ $activity->user->name }}" class="w-8 h-8 rounded-full object-cover">
+                                    <img src="{{ $activity->user->profile_photo_url }}" alt="{{ $activity->user->name }}" class="w-8 h-8 rounded-full object-cover">
                                 @else
                                     <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 flex items-center justify-center text-white text-xs font-bold">
                                         {{ strtoupper(substr($activity->user->name, 0, 1)) }}
@@ -135,9 +135,9 @@
                                     @endif
                                     <p class="text-xs text-gray-500 mt-1">{{ $activity->created_at->diffForHumans() }}</p>
                                 </div>
-                                @if($activity->post && $activity->post->photo_name)
+                                @if($activity->post && $activity->post->image_path)
                                     <a href="{{ route('posts.show', $activity->post) }}" class="shrink-0">
-                                        <img src="{{ asset('storage/' . $activity->post->photo_name) }}" alt="Post" class="w-10 h-10 rounded object-cover">
+                                        <img src="{{ $activity->post->image_url }}" alt="Post" class="w-10 h-10 rounded object-cover">
                                     </a>
                                 @endif
                             </div>
@@ -172,8 +172,8 @@
                                     {{ $index === 2 ? 'bg-orange-500/20 text-orange-400' : '' }}">
                                     {{ $index + 1 }}
                                 </div>
-                                @if($post->photo_name)
-                                    <img src="{{ asset('storage/' . $post->photo_name) }}" alt="Post" class="w-12 h-12 rounded-lg object-cover">
+                                @if($post->image_path)
+                                    <img src="{{ $post->image_url }}" alt="Post" class="w-12 h-12 rounded-lg object-cover">
                                 @else
                                     <div class="w-12 h-12 rounded-lg bg-[#1e1b2e] flex items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-600">

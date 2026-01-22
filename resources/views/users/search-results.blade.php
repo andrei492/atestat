@@ -41,7 +41,7 @@
                        class="flex items-center gap-4 p-4 bg-[#1e1b2e] border border-purple-500/20 rounded-xl hover:bg-purple-500/10 hover:border-purple-500/40 transition group">
                         <!-- Profile Picture -->
                         @if($user->profile_photo)
-                            <img src="{{ asset('storage/' . $user->profile_photo) }}" 
+                            <img src="{{ $user->profile_photo_url }}" 
                                  alt="{{ $user->name }}" 
                                  class="w-14 h-14 rounded-full object-cover ring-2 ring-purple-500/30 group-hover:ring-purple-500/50 transition">
                         @else

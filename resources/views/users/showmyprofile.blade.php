@@ -7,7 +7,7 @@
             <!-- Profile Picture -->
             <div class="flex-shrink-0">
                 @if($user->profile_photo)
-                    <img src="{{ asset('storage/' . $user->profile_photo) }}" 
+                    <img src="{{ $user->profile_photo_url }}" 
                          alt="{{ $user->name }}" 
                          class="w-36 h-36 md:w-40 md:h-40 rounded-full object-cover ring-4 ring-purple-500/30 shadow-lg shadow-purple-500/20">
                 @else
@@ -71,7 +71,7 @@
                     @foreach ($posts as $post)
                         <a href="{{ route('posts.show', $post->id) }}" class="aspect-square group relative overflow-hidden bg-[#1e1b2e] rounded-lg">
                             @if($post->image_path)
-                                <img src="{{ asset('storage/' . $post->image_path) }}" 
+                                <img src="{{ $post->image_url }}" 
                                      alt="Post" 
                                      class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
                                 <div class="absolute inset-0 bg-purple-500/0 group-hover:bg-purple-500/20 transition flex items-center justify-center opacity-0 group-hover:opacity-100">

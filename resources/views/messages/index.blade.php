@@ -25,7 +25,7 @@
                         <!-- Avatar -->
                         <div class="relative shrink-0">
                             @if($otherUser->profile_photo)
-                                <img src="{{ asset('storage/' . $otherUser->profile_photo) }}" 
+                                <img src="{{ $otherUser->profile_photo_url }}" 
                                      alt="{{ $otherUser->name }}" 
                                      class="w-14 h-14 rounded-full object-cover border-2 {{ $unreadCount > 0 ? 'border-purple-500' : 'border-purple-500/20' }}">
                             @else

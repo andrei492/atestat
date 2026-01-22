@@ -4,7 +4,7 @@
             <div class="flex flex-col md:flex-row">
                 <!-- Image Section -->
                 <div class="md:flex-1 bg-black flex items-center justify-center">
-                    <img src="{{ asset('storage/' . $post->image_path) }}" 
+                    <img src="{{ $post->image_url }}" 
                          alt="Post Image" 
                          class="max-h-[80vh] w-full object-contain">
                 </div>
@@ -15,7 +15,7 @@
                     <header class="flex items-center gap-3 p-4 border-b border-purple-500/20">
                         <a href="{{ route('profile.view', $post->user->id) }}" class="flex-shrink-0">
                             @if($post->user->profile_photo)
-                                <img src="{{ asset('storage/' . $post->user->profile_photo) }}" 
+                                <img src="{{ $post->user->profile_photo_url }}" 
                                      alt="{{ $post->user->name }}" 
                                      class="w-10 h-10 rounded-full object-cover ring-2 ring-purple-500/50">
                             @else
@@ -37,7 +37,7 @@
                         <div class="flex items-start gap-3">
                             <a href="{{ route('profile.view', $post->user->id) }}" class="flex-shrink-0">
                                 @if($post->user->profile_photo)
-                                    <img src="{{ asset('storage/' . $post->user->profile_photo) }}" 
+                                    <img src="{{ $post->user->profile_photo_url }}" 
                                          alt="{{ $post->user->name }}" 
                                          class="w-8 h-8 rounded-full object-cover ring-2 ring-purple-500/30">
                                 @else
@@ -59,7 +59,7 @@
                             <div class="flex items-start gap-3 group" id="comment-{{ $comment->id }}">
                                 <a href="{{ route('profile.view', $comment->user->id) }}" class="flex-shrink-0">
                                     @if($comment->user->profile_photo)
-                                        <img src="{{ asset('storage/' . $comment->user->profile_photo) }}" 
+                                        <img src="{{ $comment->user->profile_photo_url }}" 
                                              alt="{{ $comment->user->name }}" 
                                              class="w-8 h-8 rounded-full object-cover ring-2 ring-purple-500/30">
                                     @else

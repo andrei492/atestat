@@ -11,7 +11,7 @@
                     </a>
                     <a href="{{ route('profile.view', $otherUser->id) }}" class="flex items-center gap-3 flex-1 min-w-0 group">
                         @if($otherUser->profile_photo)
-                            <img src="{{ asset('storage/' . $otherUser->profile_photo) }}" 
+                            <img src="{{ $otherUser->profile_photo_url }}" 
                                  alt="{{ $otherUser->name }}" 
                                  class="w-10 h-10 rounded-full object-cover border-2 border-purple-500/20 group-hover:border-purple-500/50 transition">
                         @else
@@ -35,7 +35,7 @@
                 <div class="text-center mb-8">
                     <div class="inline-block">
                         @if($otherUser->profile_photo)
-                            <img src="{{ asset('storage/' . $otherUser->profile_photo) }}" 
+                            <img src="{{ $otherUser->profile_photo_url }}" 
                                  alt="{{ $otherUser->name }}" 
                                  class="w-20 h-20 rounded-full object-cover border-4 border-purple-500/20 mx-auto mb-3">
                         @else
@@ -70,7 +70,7 @@
                                 @if(!$isMine)
                                     <div class="flex items-end gap-2">
                                         @if($message->sender->profile_photo)
-                                            <img src="{{ asset('storage/' . $message->sender->profile_photo) }}" 
+                                            <img src="{{ $message->sender->profile_photo_url }}" 
                                                  alt="{{ $message->sender->name }}" 
                                                  class="w-6 h-6 rounded-full object-cover shrink-0">
                                         @else
@@ -83,13 +83,13 @@
                                                 <!-- Shared Post Preview -->
                                                 <a href="{{ route('posts.show', $message->sharedPost) }}" class="block hover:opacity-90 transition">
                                                     <div class="w-56">
-                                                        <img src="{{ asset('storage/' . $message->sharedPost->image_path) }}" 
+                                                        <img src="{{ $message->sharedPost->image_url }}" 
                                                              alt="Shared post" 
                                                              class="w-full aspect-square object-cover">
                                                         <div class="p-3 border-t border-purple-500/10">
                                                             <div class="flex items-center gap-2 mb-1">
                                                                 @if($message->sharedPost->user->profile_photo)
-                                                                    <img src="{{ asset('storage/' . $message->sharedPost->user->profile_photo) }}" 
+                                                                    <img src="{{ $message->sharedPost->user->profile_photo_url }}" 
                                                                          class="w-5 h-5 rounded-full object-cover">
                                                                 @else
                                                                     <div class="w-5 h-5 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 flex items-center justify-center text-white text-[10px] font-bold">
@@ -117,13 +117,13 @@
                                             <!-- Shared Post Preview (sent by me) -->
                                             <a href="{{ route('posts.show', $message->sharedPost) }}" class="block hover:opacity-90 transition">
                                                 <div class="w-56">
-                                                    <img src="{{ asset('storage/' . $message->sharedPost->image_path) }}" 
+                                                    <img src="{{ $message->sharedPost->image_url }}" 
                                                          alt="Shared post" 
                                                          class="w-full aspect-square object-cover">
                                                     <div class="p-3 border-t border-white/10">
                                                         <div class="flex items-center gap-2 mb-1">
                                                             @if($message->sharedPost->user->profile_photo)
-                                                                <img src="{{ asset('storage/' . $message->sharedPost->user->profile_photo) }}" 
+                                                                <img src="{{ $message->sharedPost->user->profile_photo_url }}" 
                                                                      class="w-5 h-5 rounded-full object-cover">
                                                             @else
                                                                 <div class="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-white text-[10px] font-bold">

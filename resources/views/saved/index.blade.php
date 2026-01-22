@@ -12,7 +12,7 @@
                 @foreach($savedPosts as $savedPost)
                     @if($savedPost->post)
                         <a href="{{ route('posts.show', $savedPost->post) }}" class="relative aspect-square group">
-                            <img src="{{ asset('storage/' . $savedPost->post->image_path) }}" 
+                            <img src="{{ $savedPost->post->image_url }}" 
                                  alt="Saved post" 
                                  class="w-full h-full object-cover rounded-lg">
                             

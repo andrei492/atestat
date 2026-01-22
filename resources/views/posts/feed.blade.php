@@ -6,7 +6,7 @@
                 <header class="flex items-center gap-3 p-4">
                     <a href="{{ route('profile.view', $post->user->id) }}" class="flex-shrink-0">
                         @if($post->user->profile_photo)
-                            <img src="{{ asset('storage/' . $post->user->profile_photo) }}" alt="{{ $post->user->name }}" class="w-10 h-10 rounded-full object-cover ring-2 ring-purple-500 ring-offset-2 ring-offset-[#1e1b2e]">
+                            <img src="{{ $post->user->profile_photo_url }}" alt="{{ $post->user->name }}" class="w-10 h-10 rounded-full object-cover ring-2 ring-purple-500 ring-offset-2 ring-offset-[#1e1b2e]">
                         @else
                             <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 via-fuchsia-500 to-pink-500 flex items-center justify-center text-white font-bold ring-2 ring-purple-500 ring-offset-2 ring-offset-[#1e1b2e]">
                                 {{ strtoupper(substr($post->user->name, 0, 1)) }}
@@ -27,7 +27,7 @@
 
                 <!-- Post Image -->
                 <a href="{{ route('posts.show', $post->id) }}" class="block aspect-square bg-[#221f2e]">
-                    <img src="{{ asset('storage/' . $post->image_path) }}" alt="Post Image" class="w-full h-full object-cover">
+                    <img src="{{ $post->image_url }}" alt="Post Image" class="w-full h-full object-cover">
                 </a>
 
                 <!-- Post Actions -->

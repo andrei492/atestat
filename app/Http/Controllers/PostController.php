@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\File;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 
 class PostController extends Controller
@@ -32,8 +33,6 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //verificare id user
-        //dd(auth()->id());
         $validator = Validator::make($request->all(), [
             'upload_file' => [
                 'required',
@@ -48,14 +47,23 @@ class PostController extends Controller
                         ->withInput();
         }
 
-        // Save the uploaded file to the 'public' disk (e.g., public/storage)
-        $filePath = $request->file('upload_file')->store('uploads/' . auth()->id(), 'public');
-        //dd($filePath);
+        // Upload to Cloudinary
+        $uploadedFile = Cloudinary::upload($request->file('upload_file')->getRealPath(), [
+            'folder' => 'socialapp/posts/' . auth()->id(),
+            'transformation' => [
+                'width' => 1080,
+                'height' => 1080,
+                'crop' => 'limit',
+                'quality' => 'auto',
+            ]
+        ]);
+        
+        $url = $uploadedFile->getSecurePath();
+
         $post = new Post();
-        $post -> image_path = $filePath;
-        $post -> author_id = auth()->id();
+        $post->image_path = $url;
+        $post->author_id = auth()->id();
         $post->save();
-        // Store the blog post...
  
         return redirect(route('posts.show', $post));
     }

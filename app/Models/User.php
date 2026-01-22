@@ -50,6 +50,24 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the profile photo URL (handles both Cloudinary and local paths)
+     */
+    public function getProfilePhotoUrlAttribute(): ?string
+    {
+        if (!$this->profile_photo) {
+            return null;
+        }
+        
+        // If it's already a full URL (Cloudinary), return as-is
+        if (str_starts_with($this->profile_photo, 'http')) {
+            return $this->profile_photo;
+        }
+        
+        // Otherwise, it's a local path
+        return asset('storage/' . $this->profile_photo);
+    }
+
+    /**
      * Get all posts by this user.
      */
     public function posts()
