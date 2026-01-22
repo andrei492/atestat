@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -55,6 +56,14 @@ Route::middleware('auth')->group(function () {
     // Comments
     Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+
+    // Messages / Direct Messages
+    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+    Route::get('/messages/unread-count', [MessageController::class, 'unreadCount'])->name('messages.unread');
+    Route::get('/messages/new/{user}', [MessageController::class, 'create'])->name('messages.create');
+    Route::get('/messages/{conversation}', [MessageController::class, 'show'])->name('messages.show');
+    Route::post('/messages/{conversation}', [MessageController::class, 'store'])->name('messages.store');
+    Route::get('/messages/{conversation}/new', [MessageController::class, 'getNewMessages'])->name('messages.new');
 });
 
 require __DIR__.'/auth.php';

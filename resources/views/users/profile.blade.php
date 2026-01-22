@@ -20,21 +20,31 @@
                 <div class="flex flex-col md:flex-row items-center gap-4 mb-6">
                     <h1 class="text-xl font-normal text-white">{{ $user->name }}</h1>
                     
-                    <form action="{{ route('users.follow', $user->id) }}" method="POST">
-                        @csrf
-                        @if ($isFollowing)
-                            <button type="submit" class="px-6 py-2 bg-[#1e1b2e] hover:bg-purple-500/20 border border-purple-500/30 text-white text-sm font-semibold rounded-lg transition flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-purple-400">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
-                                </svg>
-                                Following
-                            </button>
-                        @else
-                            <button type="submit" class="px-6 py-2 bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 text-white text-sm font-semibold rounded-lg transition shadow-lg shadow-purple-500/25">
-                                Follow
-                            </button>
-                        @endif
-                    </form>
+                    <div class="flex items-center gap-2">
+                        <form action="{{ route('users.follow', $user->id) }}" method="POST">
+                            @csrf
+                            @if ($isFollowing)
+                                <button type="submit" class="px-6 py-2 bg-[#1e1b2e] hover:bg-purple-500/20 border border-purple-500/30 text-white text-sm font-semibold rounded-lg transition flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-purple-400">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm3.857-9.809a.75.75 0 0 0-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z" clip-rule="evenodd" />
+                                    </svg>
+                                    Following
+                                </button>
+                            @else
+                                <button type="submit" class="px-6 py-2 bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-600 hover:to-fuchsia-600 text-white text-sm font-semibold rounded-lg transition shadow-lg shadow-purple-500/25">
+                                    Follow
+                                </button>
+                            @endif
+                        </form>
+
+                        <!-- Message Button -->
+                        <a href="{{ route('messages.create', $user) }}" class="px-4 py-2 bg-[#1e1b2e] hover:bg-purple-500/20 border border-purple-500/30 text-white text-sm font-semibold rounded-lg transition flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
+                            </svg>
+                            Message
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Stats -->

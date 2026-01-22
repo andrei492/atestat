@@ -86,4 +86,27 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+
+    /**
+     * Get all conversations for this user.
+     */
+    public function conversations()
+    {
+        return Conversation::where('user_one_id', $this->id)
+            ->orWhere('user_two_id', $this->id);
+    }
+
+    /**
+     * Get unread messages count for this user.
+     */
+    public function unreadMessagesCount()
+    {
+        return Message::whereHas('conversation', function ($query) {
+            $query->where('user_one_id', $this->id)
+                ->orWhere('user_two_id', $this->id);
+        })
+        ->where('sender_id', '!=', $this->id)
+        ->whereNull('read_at')
+        ->count();
+    }
 }
