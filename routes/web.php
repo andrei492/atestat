@@ -33,6 +33,19 @@ Route::get('/debug-mail', function () {
     return response()->json($config);
 });
 
+// Test email sending (remove in production)
+Route::get('/test-email/{email}', function ($email) {
+    try {
+        Mail::raw('This is a test email from SocialApp!', function ($message) use ($email) {
+            $message->to($email)
+                    ->subject('Test Email from SocialApp');
+        });
+        return response()->json(['success' => true, 'message' => 'Email sent to ' . $email]);
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+    }
+});
+
 // All authenticated routes
 Route::middleware('auth')->group(function () {
     // Follow (rate limited)
