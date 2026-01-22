@@ -172,8 +172,8 @@
                                     {{ $index === 2 ? 'bg-orange-500/20 text-orange-400' : '' }}">
                                     {{ $index + 1 }}
                                 </div>
-                                @if($post->image_path)
-                                    <img src="{{ $post->image_url }}" alt="Post" class="w-12 h-12 rounded-lg object-cover">
+                                @if($post->photo_name)
+                                    <img src="{{ asset('storage/' . $post->photo_name) }}" alt="Post" class="w-12 h-12 rounded-lg object-cover">
                                 @else
                                     <div class="w-12 h-12 rounded-lg bg-[#1e1b2e] flex items-center justify-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-600">

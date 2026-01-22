@@ -9,7 +9,7 @@
     </header>
 
     <form action="{{ route('profile.photo.upload') }}" method="POST" enctype="multipart/form-data" class="mt-6" x-data="{
-        imagePreview: '{{ Auth::user()->profile_photo_url ?? '' }}',
+        imagePreview: '{{ Auth::user()->profile_photo ? Auth::user()->profile_photo_url : '' }}',
         handleFileSelect(event) {
             const file = event.target.files[0];
             if (file) {
