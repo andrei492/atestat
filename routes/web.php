@@ -9,20 +9,17 @@ use App\Http\Controllers\SavedPostController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
-// Debug storage route (remove in production)
-Route::get('/debug-storage', function () {
-    $publicPath = public_path('storage');
-    $storagePath = storage_path('app/public');
+// Serve storage files directly (workaround for Railway symlink issues)
+Route::get('/storage/{path}', function ($path) {
+    $fullPath = storage_path('app/public/' . $path);
     
-    return response()->json([
-        'public_storage_exists' => file_exists($publicPath),
-        'public_storage_is_link' => is_link($publicPath),
-        'storage_app_public_exists' => file_exists($storagePath),
-        'storage_files' => Storage::disk('public')->files('uploads', true),
-        'public_path' => $publicPath,
-        'storage_path' => $storagePath,
-    ]);
-});
+    if (!file_exists($fullPath)) {
+        abort(404);
+    }
+    
+    $mimeType = mime_content_type($fullPath);
+    return response()->file($fullPath, ['Content-Type' => $mimeType]);
+})->where('path', '.*')->name('storage.serve');
 
 Route::get('/', function () {
     if (auth()->check()) {
