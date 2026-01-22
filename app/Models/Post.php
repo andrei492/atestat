@@ -13,8 +13,37 @@ class Post extends Model
         'author_id',
         'image_path',
     ];
+
+    /**
+     * Get the user that owns the post.
+     */
     public function user()
     {
         return $this->belongsTo(User::class, 'author_id');
+    }
+
+    /**
+     * Get all likes for the post.
+     */
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    /**
+     * Get all comments for the post.
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * Check if the post is liked by a specific user.
+     */
+    public function isLikedBy($user)
+    {
+        if (!$user) return false;
+        return $this->likes()->where('user_id', $user->id)->exists();
     }
 }

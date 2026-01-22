@@ -158,7 +158,9 @@ class ProfileController extends Controller
         $followingIds = Follower::where('follower_id', $user->id)->pluck('following_id');
 
         // Fetch the posts of the users the logged-in user is following
+        // Eager load user, likes, and comments for better performance
         $posts = Post::whereIn('author_id', $followingIds)
+            ->with(['user', 'likes', 'comments'])
             ->orderBy('id', 'desc') 
             ->paginate(10);
         //dd($user, $followingIds, $posts); 

@@ -1,66 +1,250 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Social Media Platform - Laravel Project
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A modern social media web application built with Laravel 11, featuring user authentication, image posting, following system, and real-time feed updates.
 
-## About Laravel
+## 🚀 Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Core Functionality
+- **User Authentication**: Complete registration, login, and profile management system
+- **Image Posting**: Users can upload and share images with file validation
+- **Following System**: Follow/unfollow other users to curate your feed
+- **Personal Feed**: View posts from users you follow in chronological order
+- **Profile Management**: Upload profile pictures and view user profiles
+- **User Search**: Search for other users by name
+- **Responsive Design**: Mobile-friendly interface with Tailwind CSS
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Technical Features
+- **File Upload**: Secure image upload with validation (max 12MB)
+- **Database Relationships**: Proper foreign key relationships between users, posts, and followers
+- **Pagination**: Efficient pagination for feed and posts
+- **Profile Photos**: User profile picture upload and display
+- **Dark Mode Support**: Built-in dark mode compatibility
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🛠️ Technology Stack
 
-## Learning Laravel
+- **Backend**: Laravel 11 (PHP 8.2+)
+- **Frontend**: Blade Templates, Alpine.js, Tailwind CSS
+- **Database**: MySQL
+- **Authentication**: Laravel Breeze
+- **Testing**: Pest PHP
+- **Build Tool**: Vite
+- **Containerization**: Docker (Laravel Sail)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 📋 Prerequisites
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- PHP 8.2 or higher
+- Composer
+- Node.js and npm
+- MySQL database
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🔧 Installation
 
-## Laravel Sponsors
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd atestat
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. **Install PHP dependencies**
+   ```bash
+   composer install
+   ```
 
-### Premium Partners
+3. **Install Node.js dependencies**
+   ```bash
+   npm install
+   ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+4. **Environment setup**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-## Contributing
+5. **Database setup**
+   ```bash
+   # Configure MySQL database in .env file
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=your_database_name
+   DB_USERNAME=your_username
+   DB_PASSWORD=your_password
+   
+   # Run migrations
+   php artisan migrate
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+6. **Storage setup**
+   ```bash
+   php artisan storage:link
+   ```
 
-## Code of Conduct
+7. **Build frontend assets**
+   ```bash
+   npm run dev
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+8. **Start the development server**
+   ```bash
+   php artisan serve
+   ```
 
-## Security Vulnerabilities
+## 🐳 Docker Installation (Laravel Sail)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. **Start with Sail**
+   ```bash
+   ./vendor/bin/sail up -d
+   ```
 
-## License
+2. **Run migrations**
+   ```bash
+   ./vendor/bin/sail artisan migrate
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+3. **Build frontend assets**
+   ```bash
+   ./vendor/bin/sail npm run dev
+   ```
+
+The application will be available at `http://localhost:8080`
+
+## 📁 Project Structure
+
+```
+atestat/
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── PostController.php      # Post management
+│   │   └── ProfileController.php   # User profiles and following
+│   └── Models/
+│       ├── User.php               # User model
+│       ├── Post.php               # Post model
+│       └── Follower.php           # Following relationships
+├── database/
+│   └── migrations/                # Database structure
+├── resources/
+│   ├── views/
+│   │   ├── posts/                 # Post-related views
+│   │   └── users/                 # User profile views
+│   └── css/                       # Custom stylesheets
+├── routes/
+│   └── web.php                    # Application routes
+└── public/
+    └── css/                       # Static CSS files
+```
+
+## 🗄️ Database Schema
+
+### Users Table
+- `id` - Primary key
+- `name` - User's display name
+- `email` - User's email (unique)
+- `password` - Hashed password
+- `profile_photo` - Profile picture path
+- `created_at`, `updated_at` - Timestamps
+
+### Posts Table
+- `id` - Primary key
+- `author_id` - Foreign key to users table
+- `image_path` - Path to uploaded image
+- `created_at`, `updated_at` - Timestamps
+
+### Followers Table
+- `id` - Primary key
+- `follower_id` - User who follows (Foreign key to users)
+- `following_id` - User being followed (Foreign key to users)
+- `created_at`, `updated_at` - Timestamps
+- Unique constraint on `(follower_id, following_id)`
+
+## 🔐 Authentication
+
+The application uses **Laravel Breeze** for authentication, providing:
+- User registration and login
+- Password reset functionality
+- Email verification
+- Session management
+
+## 📱 Key Routes
+
+### Public Routes
+- `/` - Welcome page with login/register options
+- `/login` - User login
+- `/register` - User registration
+
+### Authenticated Routes
+- `/dashboard` - User dashboard
+- `/feed` - Social media feed
+- `/posts/create` - Create new post
+- `/posts/{id}` - View individual post
+- `/profile/{id}` - View user profile
+- `/public_profile` - View own profile
+- `/search` - Search for users
+- `/profile/photo` - Upload profile picture
+
+## 🖼️ File Upload
+
+The application supports image uploads with:
+- **Validation**: Only image files (jpg, jpeg, png, webp)
+- **Size limit**: Maximum 12MB per image
+- **Storage**: Files stored in `storage/app/public/uploads/{user_id}/`
+- **Security**: Proper file validation and sanitization
+
+## 🎨 Styling
+
+The application uses:
+- **Tailwind CSS**: For responsive utility-first styling
+- **Custom CSS**: Additional styling for posts and profiles
+- **Alpine.js**: For interactive components
+- **Dark mode**: Built-in support for dark/light themes
+
+## 🧪 Testing
+
+Run the test suite:
+```bash
+php artisan test
+```
+
+Or using Pest:
+```bash
+./vendor/bin/pest
+```
+
+## 🚀 Deployment
+
+### Environment Configuration
+Ensure these environment variables are set:
+- `APP_ENV=production`
+- `APP_DEBUG=false`
+- `APP_URL=your-domain.com`
+- Database connection settings
+- File storage configuration
+
+### Production Steps
+1. Run `composer install --optimize-autoloader --no-dev`
+2. Run `npm run build`
+3. Run `php artisan config:cache`
+4. Run `php artisan route:cache`
+5. Run `php artisan view:cache`
+6. Set up proper file permissions
+7. Configure web server
+
+## 📝 License
+
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## 📞 Support
+
+For issues and questions, please use the GitHub issues page or contact the development team.
+
+---
+
+**Note**: This is a student project (atestat) demonstrating social media functionality with Laravel. It includes core features like user authentication, image posting, following system, and feed generation.

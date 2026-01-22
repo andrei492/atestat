@@ -13,7 +13,7 @@
             justify-content: center;
             align-items: center;
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-color: #121827;
         }
         .buttons-container {
             text-align: center;

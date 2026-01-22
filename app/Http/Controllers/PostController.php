@@ -66,7 +66,7 @@ class PostController extends Controller
     public function show(string $id)
     {
         //dd(storage_path(), public_path());
-        $post = Post::find($id);
+        $post = Post::with(['user', 'likes', 'comments.user'])->findOrFail($id);
         return view('posts.show', ['post'=>$post]);
     }
 
