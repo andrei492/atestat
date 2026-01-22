@@ -19,20 +19,29 @@
                         };
                         reader.readAsDataURL(file);
                     }
+                },
+                clearImage() {
+                    this.imagePreview = null;
+                    this.fileName = null;
+                    this.$refs.fileInput.value = '';
                 }
             }">
                 @csrf
                 
+                <!-- Hidden file input that always exists -->
+                <input type="file" 
+                       name="upload_file" 
+                       id="upload_file" 
+                       x-ref="fileInput"
+                       accept="image/*"
+                       class="hidden"
+                       @change="handleFileSelect($event)">
+                
                 <!-- Upload Area -->
                 <div class="relative">
                     <div x-show="!imagePreview" 
+                         @click="$refs.fileInput.click()"
                          class="border-2 border-dashed border-purple-500/30 rounded-xl p-12 text-center hover:border-purple-500 transition cursor-pointer bg-[#13111c]">
-                        <input type="file" 
-                               name="upload_file" 
-                               id="upload_file" 
-                               accept="image/*"
-                               class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                               @change="handleFileSelect($event)">
                         
                         <div class="space-y-4">
                             <div class="mx-auto w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-purple-500/30">
@@ -54,18 +63,12 @@
                     <div x-show="imagePreview" x-cloak class="relative">
                         <img :src="imagePreview" alt="Preview" class="w-full aspect-square object-cover rounded-xl ring-2 ring-purple-500/30">
                         <button type="button" 
-                                @click="imagePreview = null; fileName = null; $refs.fileInput.value = ''" 
+                                @click="clearImage()" 
                                 class="absolute top-3 right-3 p-2 bg-black/50 hover:bg-purple-500/70 rounded-full text-white transition">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                             </svg>
                         </button>
-                        <input type="file" 
-                               name="upload_file" 
-                               x-ref="fileInput"
-                               accept="image/*"
-                               class="hidden"
-                               @change="handleFileSelect($event)">
                     </div>
                 </div>
 
