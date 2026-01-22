@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
@@ -41,7 +42,12 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
+        // Try to send verification email, but don't fail registration if it errors
+        try {
+            event(new Registered($user));
+        } catch (\Exception $e) {
+            Log::error('Failed to send verification email: ' . $e->getMessage());
+        }
 
         Auth::login($user);
 
