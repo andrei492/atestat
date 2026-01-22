@@ -7,7 +7,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\SavedPostController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Mail;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -19,32 +18,6 @@ Route::get('/', function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
-
-// Debug route to test email config (remove in production)
-Route::get('/debug-mail', function () {
-    $config = [
-        'MAIL_MAILER' => config('mail.default'),
-        'RESEND_KEY' => config('services.resend.key') ? 'SET (' . substr(config('services.resend.key'), 0, 10) . '...)' : 'NOT SET',
-        'MAIL_FROM_ADDRESS' => config('mail.from.address'),
-        'MAIL_FROM_NAME' => config('mail.from.name'),
-        'APP_ENV' => config('app.env'),
-    ];
-    
-    return response()->json($config);
-});
-
-// Test email sending (remove in production)
-Route::get('/test-email/{email}', function ($email) {
-    try {
-        Mail::raw('This is a test email from SocialApp!', function ($message) use ($email) {
-            $message->to($email)
-                    ->subject('Test Email from SocialApp');
-        });
-        return response()->json(['success' => true, 'message' => 'Email sent to ' . $email]);
-    } catch (\Exception $e) {
-        return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
-    }
-});
 
 // All authenticated routes
 Route::middleware('auth')->group(function () {
