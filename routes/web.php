@@ -8,6 +8,19 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\SavedPostController;
 use Illuminate\Support\Facades\Route;
 
+// Debug route to test verification email (remove after debugging)
+Route::get('/debug-verify-email', function () {
+    if (!auth()->check()) {
+        return response()->json(['error' => 'Not authenticated']);
+    }
+    try {
+        auth()->user()->sendEmailVerificationNotification();
+        return response()->json(['success' => true, 'message' => 'Verification email sent']);
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'error' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+    }
+})->middleware('auth');
+
 Route::get('/', function () {
     if (auth()->check()) {
         return redirect()->route('posts.feed');
